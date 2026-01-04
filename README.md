@@ -1,0 +1,1 @@
+Final GitHub-ready structure with JWT, tenant isolation, CQRS-ready setup.

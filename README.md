@@ -7,9 +7,9 @@ The focus of this solution is **clean architecture, tenant isolation, security, 
 
 The project is structured to demonstrate how such a system would be designed, scaled, and maintained in a real enterprise or government SaaS environment.
 
+---
 
-
-# Key Features
+## Key Features
 
 - Microservices architecture
 - JWT-based authentication and authorization
@@ -19,42 +19,42 @@ The project is structured to demonstrate how such a system would be designed, sc
 - Background job for license expiry handling
 - ASP.NET MVC frontend for role-based dashboards
 
+---
 
+## Architecture Overview
 
-# Architecture Overview
+### Components
 
-## Components
-
-- *API Gateway
+- **API Gateway**
   - Entry point for clients
   - Issues JWT tokens
   - Centralizes authentication
 
-- *License Service
+- **License Service**
   - Core business logic
   - License apply / approve workflow
   - CQRS implementation
   - Tenant-aware data handling
 
-- *Document Service
+- **Document Service**
   - Handles document-related operations
   - Isolated from core business logic
 
-- *Notification Service
+- **Notification Service**
   - Designed for asynchronous notifications
   - Keeps non-critical processing out of request flow
 
-- *Web Application (ASP.NET MVC)
+- **Web Application (ASP.NET MVC)**
   - Role-based dashboards
   - Integrates with backend services via APIs
 
+---
 
+## Multi-Tenancy Strategy
 
-# Multi-Tenancy Strategy
+**Approach:** Tenant-per-row
 
-*Approach: Tenant-per-row
-
-## How it Works
+### How it Works
 - Every core table includes a `TenantId`
 - `TenantId` is derived from JWT claims
 - Tenant context is resolved per request using a `TenantProvider`
@@ -62,14 +62,14 @@ The project is structured to demonstrate how such a system would be designed, sc
 
 This ensures tenant isolation is enforced **server-side**, not based on client input.
 
+---
 
-
-# Authentication & Authorization
+## Authentication & Authorization
 
 - JWT-based authentication
 - Role-based authorization using claims
 
-# Roles
+### Roles
 - Admin
 - Reviewer
 - AgencyUser
@@ -78,22 +78,23 @@ Authorization is enforced at:
 - API controller level
 - MVC controller level
 
+---
 
-# CQRS Implementation
+## CQRS Implementation
 
 CQRS is applied to the **License Service** where it provides clarity and separation of concerns.
 
-# Commands
+### Commands
 - ApplyLicense
 
-# Queries
+### Queries
 - GetLicensesByTenant (extensible)
 
 The implementation is intentionally lightweight and avoids unnecessary complexity such as event sourcing.
 
+---
 
-
-# Background Processing
+## Background Processing
 
 The License Service includes a background job that:
 - Periodically checks for license expiry
@@ -103,16 +104,50 @@ Implemented using `IHostedService`.
 
 ---
 
-# Project Structure
+## Project Structure
 
+```text
 src/
 ├── ApiGateway/
+│   └── ApiGateway/
+│       ├── Controllers/
+│       ├── Program.cs
+│       ├── appsettings.json
+│       └── ApiGateway.csproj
+│
 ├── LicenseService/
-│ ├── Controllers/
-│ ├── Commands/
-│ ├── Data/
-│ ├── Infrastructure/
-│ └── BackgroundJobs/
+│   └── LicenseService/
+│       ├── Controllers/
+│       ├── Commands/
+│       ├── Data/
+│       ├── Infrastructure/
+│       ├── BackgroundJobs/
+│       ├── Program.cs
+│       ├── appsettings.json
+│       └── LicenseService.csproj
+│
 ├── DocumentService/
+│   └── DocumentService/
+│       ├── Controllers/
+│       ├── Infrastructure/
+│       ├── Program.cs
+│       ├── appsettings.json
+│       └── DocumentService.csproj
+│
 ├── NotificationService/
+│   └── NotificationService/
+│       ├── Controllers/
+│       ├── Infrastructure/
+│       ├── Program.cs
+│       ├── appsettings.json
+│       └── NotificationService.csproj
+│
 └── WebApp/
+    └── WebApp/
+        ├── Controllers/
+        ├── Views/
+        ├── Program.cs
+        ├── appsettings.json
+        └── WebApp.csproj
+```
+

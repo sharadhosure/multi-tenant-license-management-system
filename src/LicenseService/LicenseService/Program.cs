@@ -19,6 +19,7 @@ builder.Services.AddScoped<ITenantProvider, TenantProvider>();
 // 🔹 REGISTER CQRS HANDLERS
 builder.Services.AddScoped<ApplyLicenseCommandHandler>();
 builder.Services.AddScoped<GetLicensesQuery>();
+builder.Services.AddHostedService<LicenseService.BackgroundJobs.LicenseExpiryJob>();
 
 // JWT Configuration
 var jwt = builder.Configuration.GetSection("Jwt");

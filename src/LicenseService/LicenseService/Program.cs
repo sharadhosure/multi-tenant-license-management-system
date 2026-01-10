@@ -40,9 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 builder.Services.AddAuthorization();
-
 var app = builder.Build();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -13,10 +13,10 @@ builder.Services.AddControllers();
 // Needed for TenantProvider
 builder.Services.AddHttpContextAccessor();
 
-// 🔹 REGISTER TENANT PROVIDER
+//  REGISTER TENANT PROVIDER
 builder.Services.AddScoped<ITenantProvider, TenantProvider>();
 
-// 🔹 REGISTER CQRS HANDLERS
+//  REGISTER CQRS HANDLERS
 builder.Services.AddScoped<ApplyLicenseCommandHandler>();
 builder.Services.AddScoped<GetLicensesQuery>();
 builder.Services.AddHostedService<LicenseService.BackgroundJobs.LicenseExpiryJob>();
